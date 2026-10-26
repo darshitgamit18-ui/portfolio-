@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Darshit Gamit — Full-Stack Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600&family=Caveat:wght@500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --paper: #FBFAF6;
+      --card: #FFFFFF;
+      --ink: #221F1B;
+      --ink-soft: #716C63;
+      --ink-faint: #A6A196;
+      --rule: #E6E0D3;
+      --rule-strong: #D8D0BE;
+      --margin: #B8402F;
+      --margin-soft: #D98A7B;
+      --blue: #2B4C7E;
+      --highlight: #F3E3A0;
+      --radius: 4px;
+      --maxw: 980px;
+      --gutter: 76px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Source Serif 4', serif;
+      margin: 0;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .hand {
+      font-family: 'Caveat', cursive;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    ::selection {
+      background: var(--highlight);
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
+    }
+
+    /* ---------- Notebook margin (signature element) ---------- */
+    .margin-rule {
+      position: absolute;
+      top: 0;
+      left: var(--gutter);
+      width: 1.5px;
+      height: 100%;
+      background: var(--margin-soft);
+      z-index: 1;
+    }
+
+    .punch-holes {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: var(--gutter);
+      height: 100%;
+      z-index: 1;
+    }
+
+    .punch-holes span {
+      position: absolute;
+      left: 34px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--paper);
+      box-shadow: inset 0 0 0 1.5px var(--rule-strong);
+    }
+
+    @media (max-width:760px) {
+
+      .margin-rule,
+      .punch-holes {
+        display: none;
+      }
+
+      :root {
+        --gutter: 0px;
+      }
+    }
+
+    .wrap {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 0 40px 0 calc(var(--gutter) + 40px);
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width:760px) {
+      .wrap {
+        padding: 0 24px;
+      }
+    }
+
+    /* ---------- NAV ---------- */
+    header.site {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(251, 250, 246, 0.9);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .navrow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .brand {
+      font-family: 'Source Serif 4', serif;
+      font-weight: 600;
+      font-size: 17px;
+    }
+
+    .brand .dot {
+      color: var(--margin);
+    }
+
+    nav.links {
+      display: flex;
+      gap: 30px;
+      font-size: 14px;
+    }
+
+    nav.links a {
+      text-decoration: none;
+      color: var(--ink-soft);
+      transition: color 0.2s ease;
+    }
+
+    nav.links a:hover {
+      color: var(--ink);
+    }
+
+    @media (max-width:640px) {
+      nav.links {
+        display: none;
+      }
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      padding: 88px 0 76px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .eyebrow {
+      font-size: 13px;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+
+    h1.title {
+      font-size: clamp(38px, 6vw, 60px);
+      line-height: 1.06;
+    }
+
+    .role {
+      display: block;
+      color: var(--ink-soft);
+      font-weight: 500;
+      font-size: 0.4em;
+      font-family: 'Inter', sans-serif;
+      margin-top: 16px;
+    }
+
+    .tagline {
+      max-width: 56ch;
+      margin-top: 24px;
+      font-size: 17px;
+      color: var(--ink-soft);
+    }
+
+    .hero-annotation {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 30px;
+      color: var(--margin);
+      font-size: 22px;
+    }
+
+    .hero-annotation svg {
+      width: 34px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+
+    .hero-cta {
+      margin-top: 22px;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-size: 14px;
+      padding: 11px 22px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      border: 1px solid var(--ink);
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+
+    .btn.primary {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .btn.primary:hover {
+      background: var(--blue);
+      border-color: var(--blue);
+    }
+
+    .btn.ghost {
+      border-color: var(--rule-strong);
+      color: var(--ink);
+    }
+
+    .btn.ghost:hover {
+      border-color: var(--ink);
+    }
+
+    /* ---------- SECTION SHARED ---------- */
+    section {
+      padding: 76px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .sec-eyebrow {
+      font-size: 13px;
+      color: var(--margin);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .sec-title {
+      font-size: clamp(24px, 3.2vw, 32px);
+      margin-bottom: 40px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---------- ABOUT ---------- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 48px;
+    }
+
+    @media (max-width:760px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .about-body p {
+      color: var(--ink-soft);
+      margin: 0 0 16px;
+      max-width: 58ch;
+    }
+
+    .about-body strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .about-body mark {
+      background: var(--highlight);
+      padding: 0 3px;
+      color: var(--ink);
+    }
+
+    .index-card {
+      background: var(--card);
+      border: 1px solid var(--rule-strong);
+      border-radius: var(--radius);
+      padding: 24px 26px;
+      box-shadow: 0 1px 0 var(--rule);
+    }
+
+    .index-card .card-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-faint);
+      margin-bottom: 14px;
+    }
+
+    .fact-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 9px 0;
+      border-bottom: 1px dashed var(--rule);
+      font-size: 14px;
+    }
+
+    .fact-row:last-child {
+      border-bottom: none;
+    }
+
+    .fact-row span:first-child {
+      color: var(--ink-soft);
+    }
+
+    .fact-row span:last-child {
+      color: var(--ink);
+      font-weight: 500;
+      text-align: right;
+    }
+
+    /* ---------- JOURNEY / TIMELINE ---------- */
+    .journey {
+      position: relative;
+    }
+
+    .j-entry {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 26px;
+      padding: 24px 0;
+      border-top: 1px solid var(--rule);
+    }
+
+    .j-entry:first-child {
+      border-top: 1px solid var(--rule-strong);
+    }
+
+    .j-year {
+      font-weight: 600;
+      color: var(--margin);
+      padding-top: 2px;
+    }
+
+    .j-role {
+      font-family: 'Source Serif 4', serif;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .j-desc {
+      margin-top: 6px;
+      color: var(--ink-soft);
+      font-size: 14.5px;
+      max-width: 60ch;
+    }
+
+    @media (max-width:600px) {
+      .j-entry {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+    }
+
+    /* ---------- PROJECTS ---------- */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width:760px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .proj-card {
+      background: var(--card);
+      border: 1px solid var(--rule-strong);
+      border-radius: var(--radius);
+      padding: 24px 24px 20px;
+      position: relative;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .proj-card::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: 20px;
+      width: 36px;
+      height: 10px;
+      background: var(--highlight);
+      opacity: 0.9;
+      transform: rotate(-2deg);
+    }
+
+    .proj-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(34, 31, 27, 0.06);
+    }
+
+    .proj-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-top: 6px;
+    }
+
+    .proj-name {
+      font-family: 'Source Serif 4', serif;
+      font-size: 19px;
+      font-weight: 600;
+    }
+
+    .proj-desc {
+      color: var(--ink-soft);
+      font-size: 14.5px;
+      margin: 10px 0 16px;
+    }
+
+    .stack-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .tag {
+      font-size: 11.5px;
+      color: var(--blue);
+      border: 1px solid var(--blue);
+      border-radius: 20px;
+      padding: 3px 10px;
+      opacity: 0.85;
+    }
+
+    .proj-link {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 13.5px;
+      color: var(--margin);
+      text-decoration: none;
+      border-bottom: 1px solid var(--margin-soft);
+    }
+
+    .proj-link:hover {
+      border-bottom-color: var(--margin);
+    }
+
+    /* ---------- SKILLS CHECKLIST ---------- */
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0 48px;
+    }
+
+    @media (max-width:700px) {
+      .checklist {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .check-group {
+      padding: 22px 0;
+      border-top: 1px solid var(--rule);
+    }
+
+    .check-group:nth-child(-n+2) {
+      border-top: 1px solid var(--rule-strong);
+    }
+
+    .check-cat {
+      font-size: 12px;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+
+    .check-items {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14.5px;
+    }
+
+    .check-item svg {
+      width: 16px;
+      height: 16px;
+      color: var(--margin);
+      flex-shrink: 0;
+    }
+
+    /* ---------- CONTACT ---------- */
+    .contact-note {
+      background: var(--card);
+      border: 1px solid var(--rule-strong);
+      border-radius: var(--radius);
+      padding: 36px 38px;
+      max-width: 560px;
+      position: relative;
+    }
+
+    .contact-note::before {
+      content: '';
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      width: 44px;
+      height: 44px;
+      border: 1.5px dashed var(--rule-strong);
+      border-radius: 50%;
+    }
+
+    .contact-note p {
+      margin: 0 0 18px;
+      color: var(--ink-soft);
+      max-width: 44ch;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 15px;
+    }
+
+    .contact-links a {
+      text-decoration: none;
+      color: var(--blue);
+      border-bottom: 1px solid transparent;
+    }
+
+    .contact-links a:hover {
+      border-bottom-color: var(--blue);
+    }
+
+    .sign-off {
+      margin-top: 22px;
+      font-size: 24px;
+      color: var(--margin);
+    }
+
+    footer {
+      padding: 32px 0 44px;
+      color: var(--ink-faint);
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="margin-rule" aria-hidden="true"></div>
+  <div class="punch-holes" aria-hidden="true">
+    <span style="top:120px;"></span>
+    <span style="top:420px;"></span>
+    <span style="top:720px;"></span>
+    <span style="top:1020px;"></span>
+    <span style="top:1320px;"></span>
+    <span style="top:1620px;"></span>
+    <span style="top:1920px;"></span>
+    <span style="top:2220px;"></span>
+  </div>
+
+  <header class="site">
+    <div class="wrap navrow">
+      <div class="brand">darshit<span class="dot">.</span>dev</div>
+      <nav class="links">
+        <a href="#about">About</a>
+        <a href="#journey">Journey</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Portfolio</p>
+      <h1 class="title">Darshit Gamit<span class="role">Full-stack developer, currently a CS student</span></h1>
+      <p class="tagline">I like building things that work end to end — from the database schema to the button you
+        actually click. Right now I split my time between coursework and shipping side projects.</p>
+      <p class="hero-annotation hand">
+        <svg viewBox="0 0 100 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 30 C 30 10, 60 10, 90 20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+          <path d="M78 12 L92 20 L77 26" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+            stroke-linejoin="round" fill="none" />
+        </svg>
+        open to internships
+      </p>
+      <div class="hero-cta">
+        <a class="btn primary" href="#projects">See my projects</a>
+        <a class="btn ghost" href="#contact">Say hello</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="about-grid">
+        <div class="about-body reveal">
+          <p class="sec-eyebrow">About</p>
+          <h2 class="sec-title">Still learning, always building</h2>
+          <p>I'm a computer science student who'd rather learn by shipping than by watching tutorials. Most of what I
+            know about <mark>real-world software</mark> came from projects that broke in ways no course ever mentioned.
+          </p>
+          <p>I care most about the <strong>full stack</strong> — comfortable moving between a Postgres schema and a
+            React component in the same afternoon. I'm currently looking for an internship where I can learn from
+            engineers better than me.</p>
+     
+        </div>
+        <div class="index-card reveal">
+          <div class="card-title">Quick facts</div>
+          <div class="fact-row"><span>studying</span><span> MCA </span></div>
+          <div class="fact-row"><span>year</span><span>1rd year</span></div>
+          <div class="fact-row"><span>focus</span><span>Full-stack web dev</span></div>
+          <div class="fact-row"><span>status</span><span>Open to internships</span></div>
+          <div class="fact-row"><span>reply time</span><span>Usually &lt; 1 day</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="journey">
+    <div class="wrap">
+      <p class="sec-eyebrow">Timeline</p>
+      <h2 class="sec-title">The journey so far</h2>
+      <div class="journey">
+        <div class="j-entry reveal">
+          <div class="j-year">2025</div>
+          <div>
+            <div class="j-role">Deep-diving backend systems</div>
+            <p class="j-desc">Started building projects with real databases and auth instead of mock data. Picked up
+              Node.js and PostgreSQL properly, not just enough to get by.</p>
+          </div>
+        </div>
+        <div class="j-entry reveal">
+          <div class="j-year">2024</div>
+          <div>
+            <div class="j-role">First solo full-stack project</div>
+            <p class="j-desc">Designed, built, and deployed a project from scratch on my own for the first time — and
+              learned most of what I know about debugging in production.</p>
+          </div>
+        </div>
+        <div class="j-entry reveal">
+          <div class="j-year">2023</div>
+          <div>
+            <div class="j-role">Learned React, stopped following tutorials</div>
+            <p class="j-desc">Moved from copying along with videos to building small apps from a blank file. Slower at
+              first, but it's how things actually stuck.</p>
+          </div>
+        </div>
+        <div class="j-entry reveal">
+          <div class="j-year">2022</div>
+          <div>
+            <div class="j-role">Started BCA</div>
+            <p class="j-desc">Wrote my first real programs and got hooked on the moment code you wrote actually does
+              something.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <p class="sec-eyebrow">Selected work</p>
+      <h2 class="sec-title">Projects</h2>
+      <div class="cards">
+        <div class="proj-card reveal">
+          <div class="proj-top">
+            <div class="proj-name">BcacarWala</div>
+          </div>
+          <p class="proj-desc">A car rental platform for my college, so people could easily rent cars without the hassle of traditional methods.</p>
+          <div class="stack-tags">
+            <span class="tag">php</span>
+            <span class="tag">javascript</span>
+            <span class="tag">mysql</span>
+          </div>
+          <a class="proj-link" href="#">View project →</a>
+        </div>
+        <!-- <div class="proj-card reveal">
+          <div class="proj-top">
+            <div class="proj-name">CampusEats</div>
+          </div>
+          <p class="proj-desc">An online ordering app for my college canteen, so people could skip the lunch-break
+            queue. Still used by a few dozen students.</p>
+          <div class="stack-tags">
+            <span class="tag">Next.js</span>
+            <span class="tag">Express</span>
+            <span class="tag">PostgreSQL</span>
+          </div>
+          <a class="proj-link" href="#">View project →</a>
+        </div>
+        <div class="proj-card reveal">
+          <div class="proj-top">
+            <div class="proj-name">DevLog</div>
+          </div>
+          <p class="proj-desc">A minimal markdown blogging platform for developers who want to write and publish without
+            wrestling with a CMS.</p>
+          <div class="stack-tags">
+            <span class="tag">React</span>
+            <span class="tag">Firebase</span>
+          </div>
+          <a class="proj-link" href="#">View project →</a>
+        </div>
+        <div class="proj-card reveal">
+          <div class="proj-top">
+            <div class="proj-name">QuickSplit</div>
+          </div>
+          <p class="proj-desc">A bill-splitting app for group trips and shared dinners, built to finally stop doing the
+            math by hand in a group chat.</p>
+          <div class="stack-tags">
+            <span class="tag">React Native</span>
+            <span class="tag">Supabase</span>
+          </div>
+          <a class="proj-link" href="#">View project →</a>
+        </div> -->
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <p class="sec-eyebrow">Toolbox</p>
+      <h2 class="sec-title">Skills</h2>
+      <div class="checklist">
+        <div class="check-group reveal">
+          <div class="check-cat">Languages</div>
+          <div class="check-items">
+            <div class="check-item"><svg viewBox="0 0 20 20" fill="none">
+                <path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>JavaScript / TypeScript</div>
+            <div class="check-item"><svg viewBox="0 0 20 20" fill="none">
+                <path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>Python</div>
+            <div class="check-item"><svg viewBox="0 0 20 20" fill="none">
+                <path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>SQL</div>
+          </div>
+        </div>
+        <div class="check-group reveal">
+          <div class="check-cat">Frontend</div>
+          <div class="check-items">
+            <div class="check-item"><svg viewBox="0 0 20 20" fill="none">
+                <path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>React / Next.js</div>
+            <div class="check-item"><svg viewBox="0 0 20 20" fill="none">
+                <path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>Tailwind CSS</div>
+            <div class="check-item"><svg viewBox="0 0 20 20" fill="none">
+                <path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>React Native</div>
+          </div>
+        </div>
+        <div class="check-group reveal">
+          <div class="check-cat">Backend</div>
+          <div class="check-items">
+            <div class="check-item"><svg viewBox="0 0 20 20" fill="none">
+                <path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>Node.js / Express</div>
+            <div class="check-item"><svg viewBox="0 0 20 20" fill="none">
+                <path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>PostgreSQL / MongoDB</div>
+            <div class="check-item"><svg viewBox="0 0 20 20" fill="none">
+                <path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>REST APIs</div>
+          </div>
+        </div>
+        <div class="check-group reveal">
+          <div class="check-cat">Tools</div>
+          <div class="check-items">
+            <div class="check-item"><svg viewBox="0 0 20 20" fill="none">
+                <path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>Git / GitHub</div>
+            <div class="check-item"><svg viewBox="0 0 20 20" fill="none">
+                <path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>Docker (learning)</div>
+            <div class="check-item"><svg viewBox="0 0 20 20" fill="none">
+                <path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>Figma</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" style="border-bottom:none;">
+    <div class="wrap">
+      <p class="sec-eyebrow">Contact</p>
+      <h2 class="sec-title">Say hello</h2>
+      <div class="contact-note reveal">
+        <p>Looking for an internship, want to collaborate on a project, or just want to talk about something you're
+          building? My inbox is open.</p>
+        <div class="contact-links">
+          <a href="mailto:darshitgamit@gmail.com">darshitgamit@gmail.com</a>
+          <a href="https://github.com/example" target="_blank" rel="noopener">github.com/example</a>
+          <a href="https://linkedin.com/in/example" target="_blank" rel="noopener">linkedin.com/in/example</a>
+        </div>
+        <p class="sign-off hand">— Darshit</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">© 2026 Darshit Gamit. Built by hand, not from a template.</div>
+  </footer>
+
+  <script>
+    const revealEls = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => io.observe(el));
+  </script>
+
+</body>
+
+</html>
